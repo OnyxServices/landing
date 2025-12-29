@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Lista de Precios | Onyx Nail Studio</title>
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    
+    <!-- FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Global Styles (Mismos que index.html) */
+        html { scroll-behavior: smooth; }
+        body { 
+            margin: 0; padding: 0; 
+            background-color: #1a1a1a; 
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #F8BBD0; }
+
+        /* Navigation */
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Buttons */
+        .btn-outline {
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            background-color: #D4AF37;
+            color: #1a1a1a;
+        }
+
+        /* Pricing Items */
+        .price-category {
+            margin-bottom: 3rem;
+        }
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background-color 0.3s ease;
+        }
+        .price-item:hover {
+            background-color: rgba(255,255,255,0.02);
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+        }
+        .item-desc {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 4px;
+        }
+        .item-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: #D4AF37;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .dots {
+            flex: 1;
+            border-bottom: 1px dotted rgba(255,255,255,0.1);
+            margin: 0 15px;
+            position: relative;
+            top: -5px;
+        }
+
+        /* Background decorations */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="brand-text text-xl font-bold flex items-center gap-2 text-pink-200 uppercase tracking-widest">
+                <span class="w-6 h-0.5 bg-yellow-500 inline-block"></span>
+                Onyx
+            </div>
+            <a href="index.html" class="btn-outline px-6 py-2 rounded text-xs uppercase font-bold tracking-widest flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Inicio
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="relative pt-32 pb-20 bg-black overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://page.gensparksite.com/slides_images/c90c5d4eb28abd4c209d1322235ecaf1.webp')] bg-cover bg-center opacity-20"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#1a1a1a]"></div>
+        
+        <div class="container mx-auto px-6 relative z-10 text-center" data-aos="fade-down">
+            <p class="text-pink-300 tracking-[4px] uppercase text-xs font-bold mb-3">Menú Exclusivo</p>
+            <h1 class="text-5xl md:text-7xl text-white mb-6">Lista de Precios</h1>
+            <div class="w-24 h-1 bg-yellow-500 mx-auto"></div>
+            <p class="mt-6 text-gray-400 max-w-2xl mx-auto font-light">
+                Tarifas actualizadas en CUP. Todos nuestros servicios incluyen limpieza rusa básica y garantía de 7 días.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative bg-[#1a1a1a] pb-20">
+        <!-- Decoración de fondo -->
+        <div class="blob bg-pink-600 w-96 h-96 top-0 left-0"></div>
+        <div class="blob bg-yellow-600 w-96 h-96 bottom-0 right-0"></div>
+
+        <div class="container mx-auto px-6 relative z-10 max-w-4xl">
+            
+            <!-- CATEGORÍA 1: SISTEMAS ARTIFICIALES -->
+            <div class="price-category mb-16" data-aos="fade-up">
+                <div class="flex items-center gap-4 mb-8">
+                    <i class="fa-solid fa-wand-magic-sparkles text-3xl text-yellow-500"></i>
+                    <h2 class="text-3xl text-white">Sistemas Artificiales</h2>
+                </div>
+                
+                <div class="space-y-2">
+                    <!-- Item -->
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Uñas Acrílicas (Cortas/Naturales)</div>
+                            <div class="item-desc">Esculpido #1-2, forma cuadrada o almendra.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">3.500 CUP</div>
+                    </div>
+                    <!-- Item -->
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Uñas Acrílicas (Medianas)</div>
+                            <div class="item-desc">Esculpido #3-4, cualquier estructura.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">4.200 CUP</div>
+                    </div>
+                    <!-- Item -->
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Uñas Acrílicas (Largas/XL)</div>
+                            <div class="item-desc">Esculpido #5 en adelante, stiletto/coffing.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">5.000 CUP</div>
+                    </div>
+                    <!-- Item -->
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Sistema Polygel / Acrygel</div>
+                            <div class="item-desc">Mayor ligereza y aspecto ultra natural.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">4.000 CUP</div>
+                    </div>
+                    <!-- Item -->
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Baby Boomer / Ombré (Acrílico)</div>
+                            <div class="item-desc">Degradado perfecto con polímeros de color.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">+500 CUP</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORÍA 2: MANTENIMIENTOS -->
+            <div class="price-category mb-16" data-aos="fade-up">
+                <div class="flex items-center gap-4 mb-8">
+                    <i class="fa-solid fa-rotate text-3xl text-pink-300"></i>
+                    <h2 class="text-3xl text-white">Mantenimientos & Retiros</h2>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Relleno (Hasta 3 semanas)</div>
+                            <div class="item-desc">Mismo color o diseño simple.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">2.500 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Relleno (Más de 4 semanas)</div>
+                            <div class="item-desc">Se considera cambio de set si hay levantamiento.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">3.000 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Retiro de Sistema (Onyx)</div>
+                            <div class="item-desc">Si te realizas un set nuevo.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">GRATIS</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Retiro de Sistema (Otro Salón)</div>
+                            <div class="item-desc">Retiro cuidadoso con torno y lima.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">800 CUP</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORÍA 3: MANICURA & PEDICURA -->
+            <div class="price-category mb-16" data-aos="fade-up">
+                <div class="flex items-center gap-4 mb-8">
+                    <i class="fa-solid fa-spa text-3xl text-yellow-500"></i>
+                    <h2 class="text-3xl text-white">Cuidado Natural</h2>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Manicura Gel (Semipermanente)</div>
+                            <div class="item-desc">Limpieza rusa, nivelación y un color.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">1.800 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Kapping / Baño de Gel</div>
+                            <div class="item-desc">Refuerzo sobre uña natural para crecimiento.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">2.200 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Pedicura Spa Completa</div>
+                            <div class="item-desc">Limpieza profunda, exfoliación y esmaltado gel.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">2.200 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Combo: Manicura + Pedicura Spa</div>
+                            <div class="item-desc">Paquete completo de relajación.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">3.800 CUP</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORÍA 4: NAIL ART & EXTRAS -->
+            <div class="price-category" data-aos="fade-up">
+                <div class="flex items-center gap-4 mb-8">
+                    <i class="fa-solid fa-gem text-3xl text-pink-300"></i>
+                    <h2 class="text-3xl text-white">Arte & Extras</h2>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Nail Art Básico (Por uña)</div>
+                            <div class="item-desc">Líneas simples, puntos, foil, stickers.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">100 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Nail Art Avanzado (Por uña)</div>
+                            <div class="item-desc">Mano alzada, personajes, 3D complejo.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">300 - 500 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Efecto Espejo / Chrome (Set completo)</div>
+                            <div class="item-desc">Acabado metálico en todas las uñas.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">500 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Francés / French (Set completo)</div>
+                            <div class="item-desc">Clásico o moderno pintado a mano.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">400 CUP</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="item-name">Cristales Swarovski (Por pieza)</div>
+                            <div class="item-desc">Originales, brillo garantizado.</div>
+                        </div>
+                        <div class="dots"></div>
+                        <div class="item-price">50 CUP</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CTA Final -->
+        <div class="text-center mt-20" data-aos="zoom-in">
+            <h3 class="text-2xl font-serif text-white mb-6">¿Lista para transformar tus manos?</h3>
+            <a href="https://wa.me/5353910527" target="_blank" class="inline-block bg-yellow-500 text-black px-10 py-4 rounded font-bold uppercase tracking-widest hover:bg-white transition-all shadow-lg hover:shadow-yellow-500/50">
+                <i class="fa-brands fa-whatsapp mr-2"></i> Cotizar Diseño Específico
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8 text-center text-gray-600 text-xs border-t border-gray-900">
+        <div class="container mx-auto">
+            <p>&copy; 2024 Onyx Nail Studio. Precios sujetos a cambios según complejidad del diseño.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+    </script>
+</body>
+</html>

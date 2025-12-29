@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Onyx Nail Studio | Uñas Acrílicas & Arte</title>
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    
+    <!-- FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Global Styles */
+        html {
+            scroll-behavior: smooth;
+        }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #1a1a1a; 
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+        }
+
+        /* Typography */
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F8BBD0; 
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        /* Mobile Menu Transition */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 400px; /* Adjust based on content */
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh; /* Changed from height to min-height for safer mobile wrapping */
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center; /* Center image on mobile */
+            z-index: 0;
+            animation: slowZoom 20s infinite alternate;
+        }
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(26,26,26,0.8) 50%, rgba(26,26,26,0.4) 100%);
+            z-index: 1;
+        }
+        /* Mobile adjustment for overlay opacity to make text readable */
+        @media (max-width: 768px) {
+            .hero-overlay {
+                background: rgba(0,0,0,0.75); 
+            }
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #D4AF37;
+            color: #1a1a1a;
+            border: 2px solid #D4AF37;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+            background-color: white;
+            border-color: white;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-secondary:hover {
+            background-color: white;
+            color: #1a1a1a;
+            transform: translateY(-3px);
+        }
+
+        /* --- MODAL FIX --- */
+        .modal {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 9999;
+        }
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .form-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            border-color: #D4AF37;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        ::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        /* Service Cards */
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+        .service-card:hover {
+            border-color: #D4AF37;
+            background-color: rgba(255, 255, 255, 0.07);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: rgba(212, 175, 55, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #D4AF37;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+        }
+        .service-card:hover .icon-box {
+            background-color: #D4AF37;
+            color: #1a1a1a;
+            transform: rotateY(180deg);
+        }
+
+        /* Gallery - Responsive Heights */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 300px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .gallery-item.tall {
+            height: 450px; 
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-item { height: 250px; }
+            .gallery-item.tall { height: 350px; }
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.15);
+        }
+        .item-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .gallery-item:hover .item-overlay {
+            opacity: 1;
+        }
+
+        /* Benefits */
+        .benefit-item {
+            transition: all 0.3s ease;
+        }
+        .benefit-item:hover .icon-wrapper {
+            background-color: #D4AF37;
+            color: #1a1a1a;
+            transform: scale(1.1);
+        }
+        .icon-wrapper {
+            transition: all 0.3s ease;
+        }
+
+        /* Background decorations */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.1;
+            z-index: 0;
+            animation: float 10s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Brand -->
+            <div class="brand-text text-xl font-bold flex items-center gap-2 text-pink-200 uppercase tracking-widest z-50 relative">
+                <span class="w-6 h-0.5 bg-yellow-500 inline-block"></span>
+                Onyx
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex gap-8 text-sm uppercase tracking-wider font-medium text-gray-300">
+                <a href="#home" class="hover:text-yellow-400 transition-colors">Inicio</a>
+                <a href="#services" class="hover:text-yellow-400 transition-colors">Servicios</a>
+                <a href="#gallery" class="hover:text-yellow-400 transition-colors">Galería</a>
+                <a href="#benefits" class="hover:text-yellow-400 transition-colors">Beneficios</a>
+            </div>
+
+            <!-- Mobile Buttons (Hamburger + WA) -->
+            <div class="flex items-center gap-4">
+                <!-- WhatsApp Button (Hidden on super small screens if needed, but visible here) -->
+                <a href="https://wa.me/5353910527" target="_blank" class="border border-yellow-500 text-yellow-500 px-3 py-2 text-xs uppercase hover:bg-yellow-500 hover:text-black transition-all flex items-center gap-2 font-bold whitespace-nowrap">
+                    <i class="fa-brands fa-whatsapp"></i> <span class="hidden sm:inline">Chat</span>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" onclick="toggleMenu()" class="md:hidden text-white text-2xl focus:outline-none z-50 relative">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="md:hidden bg-[#1a1a1a] border-t border-gray-800 absolute w-full left-0 top-full shadow-xl">
+            <div class="flex flex-col p-6 gap-4 text-center text-sm uppercase tracking-wider font-medium text-gray-300">
+                <a href="#home" onclick="toggleMenu()" class="hover:text-yellow-400 transition-colors py-2">Inicio</a>
+                <a href="#services" onclick="toggleMenu()" class="hover:text-yellow-400 transition-colors py-2">Servicios</a>
+                <a href="#gallery" onclick="toggleMenu()" class="hover:text-yellow-400 transition-colors py-2">Galería</a>
+                <a href="#benefits" onclick="toggleMenu()" class="hover:text-yellow-400 transition-colors py-2">Beneficios</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <section id="home" class="hero-section">
+        <img alt="Elegant Manicure on Silk" class="hero-bg" src="https://page.gensparksite.com/slides_images/a2612fa65a4c3ac7daf9abccbaeba324.webp"/>
+        <div class="hero-overlay"></div>
+        
+        <div class="relative z-10 container mx-auto px-6 md:px-12 flex flex-col md:flex-row h-full items-center justify-center md:justify-start">
+            <!-- Added pt-28 md:pt-20 to account for nav on mobile -->
+            <div class="w-full md:w-3/5 pt-28 md:pt-20 text-center md:text-left" data-aos="fade-right" data-aos-duration="1200">
+                <p class="text-pink-300 tracking-[5px] uppercase text-xs md:text-sm mb-4 font-bold">Nail Studio &amp; Spa</p>
+                
+                <!-- Responsive H1 size -->
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 text-white leading-tight">
+                    Uñas que <br/>
+                    <span class="text-yellow-400 italic font-light">Definen tu Esencia</span>
+                </h1>
+                
+                <!-- Responsive Paragraph margins -->
+                <p class="text-base md:text-lg text-gray-300 font-light max-w-lg leading-relaxed mb-8 md:mb-10 mx-auto md:mx-0 border-l-0 md:border-l-4 border-yellow-500 pl-0 md:pl-6">
+                    Experimenta el arte del detalle con diseños impecables, materiales hipoalergénicos y una durabilidad garantizada en Onyx.
+                </p>
+                
+                <!-- Buttons Wrapper -->
+                <div class="flex flex-col sm:flex-row gap-4 sm:gap-5 items-center justify-center md:justify-start w-full">
+                    <button onclick="toggleModal()" class="btn-primary w-full sm:w-auto px-8 py-4 rounded-sm font-bold text-sm md:text-base uppercase tracking-widest flex items-center justify-center gap-3">
+                        Reservar Cita <i class="fa-solid fa-calendar-plus"></i>
+                    </button>
+                    <button onclick="document.getElementById('gallery').scrollIntoView()" class="btn-secondary w-full sm:w-auto px-8 py-4 rounded-sm font-bold text-sm md:text-base uppercase tracking-widest">
+                        Ver Galería
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="mt-12 md:mt-16 flex gap-6 md:gap-10 border-t border-gray-700 pt-8 justify-center md:justify-start">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-users text-yellow-400 text-xl md:text-2xl"></i>
+                        <div class="text-left">
+                            <p class="text-xl md:text-2xl font-bold text-white">+500</p>
+                            <p class="text-[10px] md:text-xs text-gray-400 uppercase">Clientas</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-star text-pink-300 text-xl md:text-2xl"></i>
+                        <div class="text-left">
+                            <p class="text-xl md:text-2xl font-bold text-white">4.9</p>
+                            <p class="text-[10px] md:text-xs text-gray-400 uppercase">Calificación</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Badge (Hidden on Mobile) -->
+            <div class="hidden md:flex md:w-2/5 relative h-full items-end justify-end pb-20 pr-10">
+                <div class="bg-white text-black p-6 rounded shadow-2xl animate-bounce" style="animation-duration: 3s;">
+                    <p class="text-sm font-light text-gray-500 uppercase">Promo Apertura Onyx</p>
+                    <p class="text-4xl font-serif font-bold text-gray-900">-10%</p>
+                    <p class="text-xs font-medium mt-1 text-pink-600">Primera visita</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULARIO MODAL -->
+    <div id="bookingModal" class="fixed inset-0 modal flex items-center justify-center px-4"> <!-- Added px-4 for mobile safety -->
+        <!-- Overlay oscuro -->
+        <div class="absolute inset-0 bg-black bg-opacity-80 backdrop-filter backdrop-blur-sm" onclick="toggleModal()"></div>
+        
+        <!-- Caja del formulario -->
+        <div class="relative bg-gray-900 border border-yellow-500 rounded-lg p-6 md:p-8 w-full max-w-md shadow-2xl transform transition-all m-auto max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-serif text-yellow-500">Agenda tu Cita</h3>
+                <p class="text-gray-400 text-sm mt-1">Completa tus datos para confirmar disponibilidad</p>
+            </div>
+
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1 font-bold tracking-wider">Nombre Completo</label>
+                    <input type="text" placeholder="Ej. María Pérez" class="form-input w-full p-3 rounded focus:outline-none">
+                </div>
+                
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1 font-bold tracking-wider">Fecha Preferida</label>
+                    <input type="date" class="form-input w-full p-3 rounded focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase text-gray-500 mb-1 font-bold tracking-wider">Número de Teléfono</label>
+                    <input type="tel" placeholder="+53 5xxx xxxx" class="form-input w-full p-3 rounded focus:outline-none">
+                </div>
+
+                <button type="button" class="btn-primary w-full py-3 mt-4 rounded font-bold uppercase tracking-widest hover:bg-white transition-colors" onclick="alert('Gracias! Te contactaremos al WhatsApp para confirmar.'); toggleModal();">
+                    Solicitar Cita
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SECTION 2: SERVICES (Pricing in CUP) -->
+    <!-- Reduced py for mobile -->
+    <section id="services" class="relative py-16 md:py-24 bg-gray-900">
+        <!-- Decoration (Responsive size) -->
+        <div class="blob bg-yellow-600 w-64 h-64 md:w-96 md:h-96 top-0 left-0 blur-3xl opacity-20"></div>
+        <div class="blob bg-pink-600 w-64 h-64 md:w-96 md:h-96 bottom-0 right-0 blur-3xl opacity-20"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-12 md:mb-16" data-aos="fade-up">
+                <!-- Responsive H2 -->
+                <h2 class="text-3xl md:text-5xl mb-4">Nuestros Servicios</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto mb-4"></div>
+                <p class="text-pink-200 uppercase tracking-widest text-xs md:text-sm">Excelencia y detalle en cada cita</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+                
+                <!-- Service 1 -->
+                <div class="service-card p-6 md:p-8 rounded-lg flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon-box flex-shrink-0 mx-auto sm:mx-0">
+                        <i class="fa-solid fa-hand-sparkles"></i>
+                    </div>
+                    <div class="flex-1 w-full">
+                        <h3 class="text-xl md:text-2xl font-serif mb-2 text-white">Uñas Acrílicas</h3>
+                        <p class="text-gray-400 text-sm mb-2 sm:mb-0">Esculpidas a medida. Acabado natural y resistente.</p>
+                    </div>
+                    <div class="text-center sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-gray-700 pt-3 sm:pt-0 mt-2 sm:mt-0">
+                        <span class="block text-xs text-gray-500 uppercase">Desde</span>
+                        <span class="text-xl md:text-2xl font-bold text-pink-200">3500 <span class="text-xs">CUP</span></span>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card p-6 md:p-8 rounded-lg flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon-box flex-shrink-0 mx-auto sm:mx-0">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="flex-1 w-full">
+                        <h3 class="text-xl md:text-2xl font-serif mb-2 text-white">Diseños & Nail Art</h3>
+                        <p class="text-gray-400 text-sm mb-2 sm:mb-0">Mano alzada, 3D, pedrería y efectos especiales.</p>
+                    </div>
+                    <div class="text-center sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-gray-700 pt-3 sm:pt-0 mt-2 sm:mt-0">
+                        <span class="block text-xs text-gray-500 uppercase">Extra</span>
+                        <span class="text-xl md:text-2xl font-bold text-pink-200">+500 <span class="text-xs">CUP</span></span>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card p-6 md:p-8 rounded-lg flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="icon-box flex-shrink-0 mx-auto sm:mx-0">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <div class="flex-1 w-full">
+                        <h3 class="text-xl md:text-2xl font-serif mb-2 text-white">Manicura Gel</h3>
+                        <p class="text-gray-400 text-sm mb-2 sm:mb-0">Limpieza rusa y esmaltado semipermanente.</p>
+                    </div>
+                    <div class="text-center sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-gray-700 pt-3 sm:pt-0 mt-2 sm:mt-0">
+                        <span class="block text-xs text-gray-500 uppercase">Desde</span>
+                        <span class="text-xl md:text-2xl font-bold text-pink-200">1800 <span class="text-xs">CUP</span></span>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card p-6 md:p-8 rounded-lg flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 md:gap-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="icon-box flex-shrink-0 mx-auto sm:mx-0">
+                        <i class="fa-solid fa-spa"></i>
+                    </div>
+                    <div class="flex-1 w-full">
+                        <h3 class="text-xl md:text-2xl font-serif mb-2 text-white">Pedicura Spa</h3>
+                        <p class="text-gray-400 text-sm mb-2 sm:mb-0">Exfoliación, masaje y limpieza profunda.</p>
+                    </div>
+                    <div class="text-center sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-gray-700 pt-3 sm:pt-0 mt-2 sm:mt-0">
+                        <span class="block text-xs text-gray-500 uppercase">Desde</span>
+                        <span class="text-xl md:text-2xl font-bold text-pink-200">2200 <span class="text-xs">CUP</span></span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-12">
+                <!-- Botón de Redirección -->
+                <a href="precios.html" class="inline-block border border-yellow-500 text-yellow-500 px-8 py-3 rounded hover:bg-yellow-500 hover:text-black transition-all uppercase tracking-widest text-xs md:text-sm font-bold">
+                    Ver Lista de Precios
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: GALLERY -->
+    <section id="gallery" class="py-16 md:py-24 bg-[#1a1a1a] border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-gray-800 pb-6">
+                <div data-aos="fade-right">
+                    <span class="text-pink-200 uppercase tracking-widest text-xs md:text-sm font-bold">Portfolio</span>
+                    <h2 class="text-3xl md:text-5xl text-white mt-2">Galería de Trabajos</h2>
+                </div>
+                <div class="mt-4 md:mt-0" data-aos="fade-left">
+                    <span class="bg-gray-800 text-gray-300 px-4 py-2 rounded-full text-xs border border-gray-700 block text-center md:inline-block">
+                        <i class="fa-brands fa-instagram mr-2"></i> @OnyxNailStudio
+                    </span>
+                </div>
+            </div>
+
+            <!-- CSS Grid Gallery -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Column 1 -->
+                <div class="flex flex-col gap-6">
+                    <div class="gallery-item tall" data-aos="fade-up" data-aos-duration="1000">
+                        <img src="https://page.gensparksite.com/slides_images/afb696ac979086533298b13ba629a3e6.webp" alt="Abstract Nails" class="gallery-img">
+                        <div class="item-overlay">
+                            <h3 class="text-2xl text-yellow-400 font-serif">Abstracto</h3>
+                            <p class="text-white text-sm">Arte moderno</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-aos="fade-up" data-aos-duration="1200">
+                        <img src="https://page.gensparksite.com/slides_images/c90c5d4eb28abd4c209d1322235ecaf1.webp" alt="Pink Nails" class="gallery-img">
+                        <div class="item-overlay">
+                            <h3 class="text-2xl text-yellow-400 font-serif">Soft Pink</h3>
+                            <p class="text-white text-sm">Minimalista</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="flex flex-col gap-6">
+                    <div class="gallery-item" data-aos="fade-up" data-aos-duration="1100">
+                        <img src="https://page.gensparksite.com/slides_images/96a0e198070d53b4354fecb31b634c89.webp" style="object-position: top;" alt="Glamour" class="gallery-img">
+                        <div class="item-overlay">
+                            <h3 class="text-2xl text-yellow-400 font-serif">Glamour</h3>
+                            <p class="text-white text-sm">Cristales Swarovski</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item tall" data-aos="fade-up" data-aos-duration="1300">
+                        <img src="https://page.gensparksite.com/slides_images/2f028cafd67d0a877ce43cf0c77d8af7.jpg" alt="Wedding" class="gallery-img">
+                        <div class="item-overlay">
+                            <h3 class="text-2xl text-yellow-400 font-serif">Bridal</h3>
+                            <p class="text-white text-sm">Elegancia pura</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="flex flex-col gap-6">
+                    <div class="gallery-item tall" data-aos="fade-up" data-aos-duration="1200">
+                        <img src="https://page.gensparksite.com/slides_images/8586837c5356420d588482876be2c98b.webp" alt="Chrome" class="gallery-img">
+                        <div class="item-overlay">
+                            <h3 class="text-2xl text-yellow-400 font-serif">Chrome</h3>
+                            <p class="text-white text-sm">Tendencia Espejo</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-aos="fade-up" data-aos-duration="1400">
+                        <img src="https://page.gensparksite.com/slides_images/ad3d17addc336eaf2189ab88355727ad.webp" alt="French" class="gallery-img">
+                        <div class="item-overlay">
+                            <h3 class="text-2xl text-yellow-400 font-serif">Baby Boomer</h3>
+                            <p class="text-white text-sm">Degradado Clásico</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: BENEFITS -->
+    <section id="benefits" class="py-16 md:py-24 relative bg-[#151515]">
+        <!-- Dot Pattern Background -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-12 md:mb-16">
+                <p class="text-pink-300 uppercase tracking-widest text-xs font-bold mb-2">Por qué elegir Onyx</p>
+                <h2 class="text-3xl md:text-5xl text-white">Tu Satisfacción es Prioridad</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+                <!-- Benefit 1 -->
+                <div class="benefit-item flex gap-4 p-4 rounded hover:bg-white hover:bg-opacity-5" data-aos="fade-up" data-aos-delay="0">
+                    <div class="icon-wrapper w-14 h-14 rounded-xl bg-yellow-500 bg-opacity-10 text-yellow-500 flex items-center justify-center text-xl flex-shrink-0 border border-yellow-500 border-opacity-30">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-serif text-white mb-2">Durabilidad 4 Semanas</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Técnica avanzada de sellado para evitar levantamientos prematuros.</p>
+                    </div>
+                </div>
+
+                <!-- Benefit 2 -->
+                <div class="benefit-item flex gap-4 p-4 rounded hover:bg-white hover:bg-opacity-5" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon-wrapper w-14 h-14 rounded-xl bg-yellow-500 bg-opacity-10 text-yellow-500 flex items-center justify-center text-xl flex-shrink-0 border border-yellow-500 border-opacity-30">
+                        <i class="fa-solid fa-pump-medical"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-serif text-white mb-2">Higiene Hospitalaria</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Autoclave para herramientas y limas desechables para cada clienta.</p>
+                    </div>
+                </div>
+
+                <!-- Benefit 3 -->
+                <div class="benefit-item flex gap-4 p-4 rounded hover:bg-white hover:bg-opacity-5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon-wrapper w-14 h-14 rounded-xl bg-yellow-500 bg-opacity-10 text-yellow-500 flex items-center justify-center text-xl flex-shrink-0 border border-yellow-500 border-opacity-30">
+                        <i class="fa-regular fa-comments"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-serif text-white mb-2">Diseño Personalizado</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Analizamos la forma de tu mano para recomendarte la estructura ideal.</p>
+                    </div>
+                </div>
+
+                 <!-- Benefit 4 -->
+                 <div class="benefit-item flex gap-4 p-4 rounded hover:bg-white hover:bg-opacity-5" data-aos="fade-up" data-aos-delay="300">
+                    <div class="icon-wrapper w-14 h-14 rounded-xl bg-yellow-500 bg-opacity-10 text-yellow-500 flex items-center justify-center text-xl flex-shrink-0 border border-yellow-500 border-opacity-30">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-serif text-white mb-2">Productos Premium</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Solo utilizamos marcas certificadas, libres de MMA y ácidos agresivos.</p>
+                    </div>
+                </div>
+
+                 <!-- Benefit 5 -->
+                 <div class="benefit-item flex gap-4 p-4 rounded hover:bg-white hover:bg-opacity-5" data-aos="fade-up" data-aos-delay="400">
+                    <div class="icon-wrapper w-14 h-14 rounded-xl bg-yellow-500 bg-opacity-10 text-yellow-500 flex items-center justify-center text-xl flex-shrink-0 border border-yellow-500 border-opacity-30">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-serif text-white mb-2">Garantía de 7 Días</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Cualquier reparación dentro de la primera semana es totalmente gratuita.</p>
+                    </div>
+                </div>
+
+                 <!-- Benefit 6 -->
+                 <div class="benefit-item flex gap-4 p-4 rounded hover:bg-white hover:bg-opacity-5" data-aos="fade-up" data-aos-delay="500">
+                    <div class="icon-wrapper w-14 h-14 rounded-xl bg-yellow-500 bg-opacity-10 text-yellow-500 flex items-center justify-center text-xl flex-shrink-0 border border-yellow-500 border-opacity-30">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-serif text-white mb-2">Citas Online</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Agenda tu espacio fácilmente a través de nuestro WhatsApp automatizado.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 md:mt-16 text-center border-t border-gray-800 pt-10">
+                <button onclick="toggleModal()" class="btn-primary w-full md:w-auto px-10 py-5 rounded text-base md:text-lg font-bold uppercase tracking-widest inline-flex justify-center items-center gap-4">
+                    Agendar mi Cita Ahora <i class="fa-solid fa-calendar-check"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-10 text-center text-gray-500 text-sm">
+        <div class="container mx-auto px-6">
+            <p class="font-serif italic text-yellow-500 text-2xl mb-4">Onyx Nail Studio</p>
+            <p class="mb-4">Calle Principal #123, Habana, Cuba</p>
+            <div class="flex justify-center gap-6 mb-8 text-xl">
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+            <p>&copy; 2024 Onyx Nail Studio. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            once: true, 
+            offset: 100, 
+            duration: 800, 
+            easing: 'ease-out-cubic',
+        });
+
+        // Toggle Modal Function
+        function toggleModal() {
+            const modal = document.getElementById('bookingModal');
+            modal.classList.toggle('active');
+        }
+
+        // Toggle Mobile Menu Function (Added for Responsive Layout)
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+            // Optional: Toggle icon between bars and X
+            const btnIcon = document.querySelector('#mobile-menu-btn i');
+            if(menu.classList.contains('open')) {
+                btnIcon.classList.remove('fa-bars');
+                btnIcon.classList.add('fa-xmark');
+            } else {
+                btnIcon.classList.remove('fa-xmark');
+                btnIcon.classList.add('fa-bars');
+            }
+        }
+    </script>
+</body>
+</html>
